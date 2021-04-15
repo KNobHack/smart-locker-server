@@ -11,7 +11,7 @@ class Users extends Migration
 		$this->forge->addField([
 			'id' => [
 				'type'           => 'INT',
-				'constraint'     => 5,
+				'constraint'     => 11,
 				'unsigned'       => true,
 				'auto_increment' => true,
 			],
@@ -25,7 +25,7 @@ class Users extends Migration
 				'constraint' => 255,
 			],
 		]);
-		$this->forge->addKey('id', true);
+		$this->forge->addPrimaryKey('id', true);
 		$this->forge->createTable('users');
 	}
 
