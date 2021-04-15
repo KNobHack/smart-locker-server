@@ -24,6 +24,15 @@ class Users extends Migration
 				'type'       => 'VARCHAR',
 				'constraint' => 255,
 			],
+			'created_at' => [
+				'type' => 'datetime',
+			],
+			'updated_at' => [
+				'type' => 'datetime',
+			],
+			'deleted_at' => [
+				'type' => 'datetime',
+			],
 		]);
 		$this->forge->addPrimaryKey('id', true);
 		$this->forge->createTable('users');
