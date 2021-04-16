@@ -33,6 +33,8 @@ $routes->setAutoRoute(false);
 // route since we don't have to scan directories.
 $routes->get('/', 'Home::alive');
 
+$routes->post('/register', 'Auth::register');
+
 /*
  * --------------------------------------------------------------------
  * Additional Routing
