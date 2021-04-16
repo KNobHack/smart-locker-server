@@ -12,14 +12,14 @@ class Auth extends BaseController
 {
 	use ResponseTrait;
 
-	private $jwt;
-	private $jwt_key;
+	// private $jwt;
+	// private $jwt_key;
 
-	public function __construct()
-	{
-		$this->jwt     = Services::jwt(false);
-		$this->jwt_key = env('jwt.key', '123');
-	}
+	// public function __construct()
+	// {
+	// 	$this->jwt     = Services::jwt(false);
+	// 	$this->jwt_key = env('jwt.key', '123');
+	// }
 
 	public function register()
 	{
@@ -48,9 +48,7 @@ class Auth extends BaseController
 		$username = $this->request->getPost('username');
 		$password = $this->request->getPost('password');
 
-		$user = (new Users)
-			->where('username', $username)
-			->first();
+		$user = (new Users)->findUsername($username);
 
 		if ($user->passwordVerified($password) === false) {
 			return $this->failUnauthorized();
@@ -59,26 +57,26 @@ class Auth extends BaseController
 		return $this->respond(['status' => 'success', 'code' => 200, 'message' => 'Login success']);
 	}
 
-	private function giveJWT($payload)
-	{
-		$encoded = $this->jwt->encode($payload, $this->jwt_key);
+	// private function giveJWT($payload)
+	// {
+	// 	$encoded = $this->jwt->encode($payload, $this->jwt_key);
 
-		$this->response->setHeader('WWW-Authenticate', "Barer {$encoded}");
-	}
+	// 	$this->response->setHeader('WWW-Authenticate', "Barer {$encoded}");
+	// }
 
-	private function authenticate()
-	{
-		try {
-			return $this->jwt->decode($this->extractJWT(), $this->jwt_key, ['HS256']);
-		} catch (\Throwable $th) {
-			return $this->failUnauthorized("Token Expired");
-		}
-	}
+	// private function authenticate()
+	// {
+	// 	try {
+	// 		return $this->jwt->decode($this->extractJWT(), $this->jwt_key, ['HS256']);
+	// 	} catch (\Throwable $th) {
+	// 		return $this->failUnauthorized("Token Expired");
+	// 	}
+	// }
 
-	private function extractJWT()
-	{
-		$raw = $this->request->header('Authorization')->getValue();
-		$extracted = str_replace('Bearer ', '', $raw);
-		return $extracted;
-	}
+	// private function extractJWT()
+	// {
+	// 	$raw = $this->request->header('Authorization')->getValue();
+	// 	$extracted = str_replace('Bearer ', '', $raw);
+	// 	return $extracted;
+	// }
 }
