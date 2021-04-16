@@ -17,7 +17,7 @@ class Users extends Model
 	protected $allowedFields        = ['username', 'password'];
 
 	// Dates
-	protected $useTimestamps        = false;
+	protected $useTimestamps        = true;
 	protected $dateFormat           = 'datetime';
 	protected $createdField         = 'created_at';
 	protected $updatedField         = 'updated_at';
@@ -25,7 +25,7 @@ class Users extends Model
 
 	// Validation
 	protected $validationRules      = [
-		'username' => ['required', 'min_length[10]'],
+		'username' => ['required', 'min_length[5]'],
 		'password' => ['required', 'min_length[10]']
 	];
 	protected $validationMessages   = [];
@@ -42,4 +42,9 @@ class Users extends Model
 	protected $afterFind            = [];
 	protected $beforeDelete         = [];
 	protected $afterDelete          = [];
+
+	public function usernameTaken($username): bool
+	{
+		return !!$this->where('username', $username)->first();
+	}
 }

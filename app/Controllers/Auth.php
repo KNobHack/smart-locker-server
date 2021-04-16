@@ -23,19 +23,40 @@ class Auth extends BaseController
 
 	public function register()
 	{
-		// From request
-		$data = $this->request->getPost();
-
 		// Entity
-		$user = new User($data);
+		$user = new User($this->request->getPost());
 
 		$userModel = new Users();
-		$userModel->save($user);
+
+		if ($userModel->usernameTaken($user->username)) {
+			return $this->failResourceExists();
+		}
+
+		if ($userModel->insert($user) === false) {
+			return $this->failValidationError();
+		}
 
 		$user->__unset('password');
-		$this->giveJWT($user->toArray());
+		$this->session->set($user->toArray());
+		// $this->giveJWT($user->toArray());
 
-		return $this->respondCreated(['status' => 'success', 'msg' => 'User created']);
+		return $this->respondCreated(['status' => 'success', 'code' => 201, 'message' => 'User created']);
+	}
+
+	public function login()
+	{
+		$username = $this->request->getPost('username');
+		$password = $this->request->getPost('password');
+
+		$user = (new Users)
+			->where('username', $username)
+			->first();
+
+		if ($user->passwordVerified($password) === false) {
+			return $this->failUnauthorized();
+		}
+
+		return $this->respond(['status' => 'success', 'code' => 200, 'message' => 'Login success']);
 	}
 
 	private function giveJWT($payload)

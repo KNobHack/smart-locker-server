@@ -26,7 +26,7 @@ class User extends Entity
 		return '';
 	}
 
-	public function verifyPassword(string $pass)
+	public function passwordVerified(string $pass)
 	{
 		return password_verify($pass, $this->attributes['password']);
 	}
