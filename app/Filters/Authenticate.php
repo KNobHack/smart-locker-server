@@ -38,7 +38,7 @@ class Authenticate implements FilterInterface
 	public function after(RequestInterface $request, ResponseInterface $response, $arguments = null)
 	{
 		if (session('username') === null) {
-			$response->setStatusCode(404);
+			$response->setStatusCode(401);
 		}
 	}
 }
