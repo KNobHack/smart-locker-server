@@ -42,7 +42,7 @@ trait Auth
 		}
 
 		$user->__unset('password');
-		return ok('Login success', $user->toArray);
+		return ok('Login success', $user->toArray());
 	}
 
 	// private function giveJWT($payload)

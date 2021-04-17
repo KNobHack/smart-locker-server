@@ -21,7 +21,7 @@ class Auth extends BaseController
                 ->withInput();
         }
 
-        session('credential', $result['data']);
+        session()->set('credential', $result['data']);
         return redirect()->route('homePage');
     }
 
@@ -41,7 +41,7 @@ class Auth extends BaseController
                 ])->withInput();
         }
 
-        session('credential', $result['data']);
+        session()->set('credential', $result['data']);
 
         return redirect()->route('loginPage')
             ->with('alert', [
