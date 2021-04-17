@@ -45,6 +45,8 @@ $routes->post('login', 'Auth::login', ['as' => 'login']);
 $routes->get('signup', 'Auth::registerPage', ['as' => 'registerPage']);
 $routes->post('signup', 'Auth::register', ['as' => 'register']);
 
+$routes->get('home', 'Home', ['as' => 'homePage']);
+
 /*
  * --------------------------------------------------------------------
  * Additional Routing

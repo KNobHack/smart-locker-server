@@ -11,6 +11,18 @@ class Auth extends BaseController
     public function login()
     {
         $result = $this->doLogin();
+
+        if ($result['code'] != 200) {
+            return redirect()->back()
+                ->with('alert', [
+                    'type' => 'danger',
+                    'message' => $result['message']
+                ])
+                ->withInput();
+        }
+
+        session('credential', $result['data']);
+        return redirect()->route('homePage');
     }
 
     public function loginPage()
@@ -22,15 +34,14 @@ class Auth extends BaseController
     {
         $result = $this->doRegister();
         if ($result['code'] != 201) {
-            return redirect()
-                ->back()
+            return redirect()->back()
                 ->with('alert', [
                     'type'    => 'danger',
                     'message' => ($result['data']['username'] ?? $result['data']['password'])
                 ])->withInput();
         }
 
-        session('credential', $result);
+        session('credential', $result['data']);
 
         return redirect()->route('loginPage')
             ->with('alert', [
