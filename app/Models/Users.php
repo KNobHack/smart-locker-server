@@ -43,9 +43,9 @@ class Users extends Model
 	protected $beforeDelete         = [];
 	protected $afterDelete          = [];
 
-	public function usernameTaken(string $username): bool
+	public static function usernameExists(string $username): bool
 	{
-		return !!$this->where('username', $username)->first();
+		return !!(new Users)->where('username', $username)->first();
 	}
 
 	public function findUsername(string $username)

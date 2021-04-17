@@ -2,12 +2,10 @@
 
 namespace App\Controllers;
 
-use CodeIgniter\RESTful\ResourceController;
-
-class Home extends ResourceController
+trait Home
 {
 	public function alive()
 	{
-		return $this->respond(['status' => 'alive']);
+		return ok('Server Alive');
 	}
 }

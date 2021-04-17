@@ -2,59 +2,42 @@
 
 namespace App\Controllers;
 
-use App\Controllers\BaseController;
 use App\Entities\User;
 use App\Models\Users;
-use Config\Services;
-use CodeIgniter\API\ResponseTrait;
 
-class Auth extends BaseController
+trait Auth
 {
-	use ResponseTrait;
-
-	// private $jwt;
-	// private $jwt_key;
-
-	// public function __construct()
-	// {
-	// 	$this->jwt     = Services::jwt(false);
-	// 	$this->jwt_key = env('jwt.key', '123');
-	// }
-
-	public function register()
+	public function doRegister()
 	{
-		// Entity
 		$user = new User($this->request->getPost());
-
 		$userModel = new Users();
 
-		if ($userModel->usernameTaken($user->username)) {
-			return $this->failResourceExists();
+		if ($userModel->usernameExists($user->username)) {
+			return conflict('Username already exists', ['username' => $user->username]);
 		}
 
 		if ($userModel->insert($user) === false) {
-			return $this->failValidationError();
+			return badRequest('Validation error', $userModel->errors());
 		}
 
-		$user->__unset('password');
-		$this->session->set($user->toArray());
-		// $this->giveJWT($user->toArray());
-
-		return $this->respondCreated(['status' => 'success', 'code' => 201, 'message' => 'User created']);
+		return ok('User cteared', $user);
 	}
 
-	public function login()
+	public function doLogin()
 	{
-		$username = $this->request->getPost('username');
-		$password = $this->request->getPost('password');
+		$user = new User($this->request->getPost());
 
-		$user = (new Users)->findUsername($username);
-
-		if ($user->passwordVerified($password) === false) {
-			return $this->failUnauthorized();
+		if (!Users::usernameExists($user->username)) {
+			return notFound('Username not found', ['username' => $user->username]);
 		}
 
-		return $this->respond(['status' => 'success', 'code' => 200, 'message' => 'Login success']);
+		$user = (new Users)->findUsername($user->username);
+
+		if ($user->passwordVerified($user->password) === false) {
+			return unauthorized('Worng password');
+		}
+
+		return ok('Login success', $user);
 	}
 
 	// private function giveJWT($payload)
