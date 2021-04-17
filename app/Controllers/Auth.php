@@ -18,6 +18,8 @@ trait Auth
 			return badRequest('Validation error', $validation->getErrors());
 		}
 
+		$userModel->save($user);
+
 		$user->__unset('password');
 		return created('User cteared', $user->toArray());
 	}
