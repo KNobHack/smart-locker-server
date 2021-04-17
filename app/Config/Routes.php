@@ -33,13 +33,13 @@ $routes->setAutoRoute(false);
 // route since we don't have to scan directories.
 $routes->get('/', 'Home::alive');
 
-$routes->group('api', ['namespace' => 'App\Controller\API'], function ($routes) {
-	$routes->post('/login', 'Auth::login');
-	$routes->post('/register', 'Auth::register');
+$routes->group('api', ['namespace' => 'App\Controllers\API'], function ($routes) {
+	$routes->post('login', 'Auth::login');
+	$routes->post('register', 'Auth::register');
 });
 
-$routes->post('/login', 'Auth::login');
-$routes->post('/register', 'Auth::register');
+$routes->post('login', 'Auth::login');
+$routes->post('register', 'Auth::register');
 
 /*
  * --------------------------------------------------------------------

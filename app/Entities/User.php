@@ -23,7 +23,7 @@ class User extends Entity
 
 	public function getPassword()
 	{
-		return ''; // extact password is not allowed
+		return; // extact password is not allowed
 	}
 
 	public function passwordVerified(string $pass)

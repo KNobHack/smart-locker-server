@@ -20,23 +20,28 @@ trait Auth
 			return badRequest('Validation error', $userModel->errors());
 		}
 
+		$user->__unset('password');
 		return ok('User cteared', $user);
 	}
 
 	public function doLogin()
 	{
-		$user = new User($this->request->getPost());
+		$username = $this->request->getPost('username');
+		$password = $this->request->getPost('password');
 
-		if (!Users::usernameExists($user->username)) {
-			return notFound('Username not found', ['username' => $user->username]);
+		$users = (new Users)->findUsername($username);
+
+		if ($users->countAllResults() < 1) {
+			return notFound('Username not found', ['username' => $username]);
 		}
 
-		$user = (new Users)->findUsername($user->username);
+		$user = $users->first();
 
-		if ($user->passwordVerified($user->password) === false) {
+		if ($user->passwordVerified($password) === false) {
 			return unauthorized('Worng password');
 		}
 
+		$user->__unset('password');
 		return ok('Login success', $user);
 	}
 

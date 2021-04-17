@@ -2,9 +2,11 @@
 
 namespace App\Controllers\Web;
 
+use App\Controllers\Auth as AuthTrait;
+
 class Auth extends BaseController
 {
-    use App\Controllers\Auth;
+    use AuthTrait;
 
     public function login()
     {

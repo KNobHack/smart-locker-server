@@ -50,6 +50,6 @@ class Users extends Model
 
 	public function findUsername(string $username)
 	{
-		return $this->where('username', $username)->first();
+		return $this->where('username', $username);
 	}
 }

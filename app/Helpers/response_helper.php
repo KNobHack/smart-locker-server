@@ -19,7 +19,7 @@ function traitResponse(string $status, int $code, $message = '', $data = [])
 // 200
 function ok($message = '', $data = [])
 {
-    return traitResponse('Success', 200, $message, $data);
+    return traitResponse('Ok', 200, $message, $data);
 };
 
 function created($message = '', $data = [])
