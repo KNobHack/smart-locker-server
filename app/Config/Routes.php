@@ -43,7 +43,7 @@ $routes->get('login', 'Auth::loginPage', ['as' => 'loginPage']);
 $routes->post('login', 'Auth::login', ['as' => 'login']);
 
 $routes->get('signup', 'Auth::registerPage', ['as' => 'registerPage']);
-$routes->post('signup', 'Auth::register');
+$routes->post('signup', 'Auth::register', ['as' => 'register']);
 
 /*
  * --------------------------------------------------------------------

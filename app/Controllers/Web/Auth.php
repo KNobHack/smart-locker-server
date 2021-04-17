@@ -21,6 +21,23 @@ class Auth extends BaseController
     public function register()
     {
         $result = $this->doRegister();
+        if ($result['code'] != 201) {
+            return redirect()
+                ->back()
+                ->with('alert', [
+                    'type'    => 'danger',
+                    'message' => ($result['data']['username'] ?? $result['data']['password'])
+                ])->withInput();
+        }
+
+        session('credential', $result);
+
+        return redirect()->route('loginPage')
+            ->with('alert', [
+                'type' => 'success',
+                'message' => 'Account created. Please login'
+            ])
+            ->withInput();
     }
 
     public function registerPage()

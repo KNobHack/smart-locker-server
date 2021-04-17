@@ -12,16 +12,14 @@ trait Auth
 		$user = new User($this->request->getPost());
 		$userModel = new Users();
 
-		if ($userModel->usernameExists($user->username)) {
-			return conflict('Username already exists', ['username' => $user->username]);
-		}
+		$validation = service('validation');
 
-		if ($userModel->insert($user) === false) {
-			return badRequest('Validation error', $userModel->errors());
+		if (!$validation->run($this->request->getPost(), 'register')) {
+			return badRequest('Validation error', $validation->getErrors());
 		}
 
 		$user->__unset('password');
-		return ok('User cteared', $user);
+		return created('User cteared', $user->toArray());
 	}
 
 	public function doLogin()

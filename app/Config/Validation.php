@@ -40,4 +40,15 @@ class Validation
 	//--------------------------------------------------------------------
 	// Rules
 	//--------------------------------------------------------------------
+
+	public $register = [
+		'username' => ['required', 'min_length[5]', 'is_unique[users.username]'],
+		'password' => ['required', 'min_length[10]']
+	];
+
+	public $register_errors = [
+		'username' => [
+			'is_unique' => 'Username already taken'
+		]
+	];
 }
