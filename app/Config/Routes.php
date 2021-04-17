@@ -36,6 +36,7 @@ $routes->get('/', 'Home::alive');
 $routes->group('api', ['namespace' => 'App\Controllers\API'], function ($routes) {
 	$routes->post('login', 'Auth::login');
 	$routes->post('register', 'Auth::register');
+	$routes->get('locker/status/(:alphanum)', 'Locker::checkStatus/$1');
 });
 
 $routes->post('login', 'Auth::login');
