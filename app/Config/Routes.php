@@ -39,11 +39,11 @@ $routes->group('api', ['namespace' => 'App\Controllers\API'], function ($routes)
 	$routes->get('locker/status/(:alphanum)', 'Locker::checkStatus/$1');
 });
 
-$routes->get('login', 'Auth::loginPage');
-$routes->post('login', 'Auth::login');
+$routes->get('login', 'Auth::loginPage', ['as' => 'loginPage']);
+$routes->post('login', 'Auth::login', ['as' => 'login']);
 
+$routes->get('signup', 'Auth::registerPage', ['as' => 'registerPage']);
 $routes->post('signup', 'Auth::register');
-$routes->get('signup', 'Auth::registerPage');
 
 /*
  * --------------------------------------------------------------------
