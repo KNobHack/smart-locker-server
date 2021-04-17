@@ -22,4 +22,9 @@ class Auth extends BaseController
     {
         $result = $this->doRegister();
     }
+
+    public function registerPage()
+    {
+        return view('auth/register');
+    }
 }
