@@ -16,7 +16,7 @@ class Auth extends BaseController
             return redirect()->back()
                 ->with('alert', [
                     'type' => 'danger',
-                    'message' => $result['message']
+                    'message' => 'Wrong Username or Password'
                 ])
                 ->withInput();
         }
