@@ -13,6 +13,11 @@ class Auth extends BaseController
         $result = $this->doLogin();
     }
 
+    public function loginPage()
+    {
+        return view('auth/login');
+    }
+
     public function register()
     {
         $result = $this->doRegister();
