@@ -2,10 +2,11 @@
 
 namespace App\Controllers;
 
-trait Home
+class Home extends BaseController
 {
-	public function alive()
+	public function index()
 	{
-		return ok('Server Alive');
+		$data['username'] = session('credential')['username'];
+		return view('home/home', $data);
 	}
 }
