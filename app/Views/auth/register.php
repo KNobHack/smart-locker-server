@@ -20,7 +20,7 @@
                             </div>
                             <div class="input-group mb-4">
                                 <span class="input-group-text"><i data-feather="lock"></i></span>
-                                <input type="password" class="form-control" placeholder="Password">
+                                <input type="password" class="form-control" placeholder="Password" name="password">
                             </div>
                             <button class="btn btn-warning btn-block mb-4">Sign up</button>
                             <p class="mb-2">Already have an account? <a href="<?= route_to('loginPage') ?>" class="f-w-400">Login</a></p>
