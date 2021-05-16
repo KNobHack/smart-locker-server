@@ -34,8 +34,6 @@ $routes->setAutoRoute(false);
 $routes->get('/', 'Auth::loginPage');
 
 $routes->group('api', ['namespace' => 'App\Controllers\API'], function ($routes) {
-	$routes->post('login', 'Auth::login');
-	$routes->post('signup', 'Auth::register');
 	$routes->get('locker/status/(:alphanum)', 'Locker::checkStatus/$1');
 });
 
