@@ -5,26 +5,45 @@ namespace App\Controllers;
 use App\Entities\User;
 use App\Models\Users;
 
-trait Auth
+class Auth extends BaseController
 {
-	public function doRegister()
+	public function registerPage()
 	{
-		$user = new User($this->request->getPost());
+		return view('auth/register');
+	}
+
+	public function register()
+	{
+		$postData = $this->request->getPost();
+		$user = new User($postData);
 		$userModel = new Users();
 
-		$validation = service('validation');
-
-		if (!$validation->run($this->request->getPost(), 'register')) {
-			return badRequest('Validation error', $validation->getErrors());
+		if (!$this->validation->run($postData, 'register')) {
+			$errors = $this->validation->getErrors();
+			return redirect()->back()
+				->with('alert', [
+					'type'    => 'danger',
+					'message' => $errors['username'] ?? $errors['password']
+				])->withInput();
 		}
 
 		$userModel->save($user);
 
 		$user->__unset('password');
-		return created('User cteared', $user->toArray());
+		session()->set('credential', $user->toArray());
+		return redirect()->route('homePage')
+			->with('alert', [
+				'type' => 'success',
+				'message' => 'Account created.'
+			]);
 	}
 
-	public function doLogin()
+	public function loginPage()
+	{
+		return view('auth/login');
+	}
+
+	public function login()
 	{
 		$username = $this->request->getPost('username');
 		$password = $this->request->getPost('password');
@@ -32,17 +51,28 @@ trait Auth
 		$users = (new Users)->findUsername($username);
 
 		if ($users->countAllResults() < 1) {
-			return notFound('Username not found', ['username' => $username]);
+			return $this->_wrongCredential();
 		}
 
 		$user = $users->first();
 
 		if ($user->passwordVerified($password) === false) {
-			return unauthorized('Worng password');
+			return $this->_wrongCredential();
 		}
 
 		$user->__unset('password');
-		return ok('Login success', $user->toArray());
+		session()->set('credential', $user->toArray());
+		return redirect()->route('homePage');
+	}
+
+	private function _wrongCredential()
+	{
+		return redirect()->back()
+			->with('alert', [
+				'type' => 'danger',
+				'message' => 'Wrong Username or Password'
+			])
+			->withInput();
 	}
 
 	// private function giveJWT($payload)

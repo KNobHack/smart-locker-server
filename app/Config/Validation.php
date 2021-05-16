@@ -43,7 +43,7 @@ class Validation
 
 	public $register = [
 		'username' => ['required', 'min_length[5]', 'is_unique[users.username]'],
-		'password' => ['required', 'min_length[10]']
+		'password' => ['required', 'min_length[8]']
 	];
 
 	public $register_errors = [

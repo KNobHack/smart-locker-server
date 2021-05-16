@@ -18,8 +18,8 @@ class Authenticate implements FilterInterface
 	 */
 	public function before(RequestInterface $request, $arguments = null)
 	{
-		if (session('username') === null) {
-			return json_encode(['status' => 'Unauthorized', 'code' => 401, 'message' => 'Loged out']);
+		if (!session('credential')) {
+			return redirect()->route('loginPage');
 		}
 	}
 
@@ -37,8 +37,6 @@ class Authenticate implements FilterInterface
 	 */
 	public function after(RequestInterface $request, ResponseInterface $response, $arguments = null)
 	{
-		if (session('username') === null) {
-			$response->setStatusCode(401);
-		}
+		// nothing
 	}
 }
