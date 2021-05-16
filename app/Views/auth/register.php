@@ -1,29 +1,34 @@
-<?= $this->extend('main') ?>
+<?= $this->include('layouts/head-auth') ?>
 
-<?= $this->section('content') ?>
-<div class="card col-lg-4 col-md-6 col-sm-12 mt-5 mx-auto">
-    <div class="card-body">
-        <h5 class="card-title text-center h1">Sign Up</h5>
-        <img src="Logo.png" alt="" class="img-fluid">
-        <?php if ($alert = session('alert')) : ?>
-            <div class="alert alert-<?= $alert['type'] ?>" role="alert">
-                <?= $alert['message'] ?>
+<div class="auth-wrapper">
+    <div class="auth-content">
+        <div class="card">
+            <div class="row align-items-center text-center">
+                <div class="col-md-12">
+                    <div class="card-body">
+                        <!-- <img src="Logo.png" alt="" class="img-fluid mb-4"> -->
+                        <h4 class="mb-3 f-w-400">Sign up</h4>
+                        <?php if ($alert = session('alert')) : ?>
+                            <div class="alert alert-<?= $alert['type'] ?>" role="alert">
+                                <?= $alert['message'] ?>
+                            </div>
+                        <?php endif; ?>
+                        <form action="<?= route_to('register') ?>" method="POST">
+                            <div class="input-group mb-3">
+                                <span class="input-group-text"><i data-feather="user"></i></span>
+                                <input type="text" class="form-control" placeholder="Username" value="<?= old('username') ?>" name="username">
+                            </div>
+                            <div class="input-group mb-4">
+                                <span class="input-group-text"><i data-feather="lock"></i></span>
+                                <input type="password" class="form-control" placeholder="Password">
+                            </div>
+                            <button class="btn btn-warning btn-block mb-4">Sign up</button>
+                            <p class="mb-2">Already have an account? <a href="<?= route_to('loginPage') ?>" class="f-w-400">Login</a></p>
+                        </form>
+                    </div>
+                </div>
             </div>
-        <?php endif; ?>
-        <form action="<?= route_to('register') ?>" method="POST">
-            <div class="mb-3">
-                <label for="username" class="form-label">Username</label>
-                <input type="text" value="<?= old('username') ?>" class="form-control" id="username" name="username">
-            </div>
-            <div class="mb-3">
-                <label for="password" class="form-label">Password</label>
-                <input type="password" class="form-control" id="password" name="password">
-            </div>
-            <div class="d-grid gap-2">
-                <button type="submit" class="btn btn-primary">Signup</button>
-                <a href="<?= route_to('loginPage') ?>" class="card-link">Already have an account? Login!</a>
-            </div>
-        </form>
+        </div>
     </div>
 </div>
-<?= $this->endSection() ?>
+<?= $this->include('layouts/head-auth') ?>
