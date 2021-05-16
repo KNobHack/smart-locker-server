@@ -1,4 +1,5 @@
 <?= $this->include('layouts/head') ?>
+<?= $this->include('layouts/sidebar') ?>
 
 <div class="pc-container">
     <div class="pcoded-content">

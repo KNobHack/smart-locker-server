@@ -39,6 +39,7 @@ $routes->group('api', ['namespace' => 'App\Controllers\API'], function ($routes)
 
 $routes->get('login', 'Auth::loginPage', ['as' => 'loginPage']);
 $routes->post('login', 'Auth::login', ['as' => 'login']);
+$routes->get('logout', 'Auth::logout', ['as' => 'logout']);
 
 $routes->get('signup', 'Auth::registerPage', ['as' => 'registerPage']);
 $routes->post('signup', 'Auth::register', ['as' => 'register']);

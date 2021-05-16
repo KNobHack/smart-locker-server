@@ -30,6 +30,7 @@ class BaseController extends Controller
     protected $helpers = ['response'];
     protected $session;
     protected $validation;
+    protected $data = [];
 
     /**
      * Constructor.
@@ -48,5 +49,7 @@ class BaseController extends Controller
         //--------------------------------------------------------------------
         $this->session    = \Config\Services::session();
         $this->validation = \Config\Services::validation();
+
+        $this->data['username'] = session('credential')['username'] ?? 'Username';
     }
 }

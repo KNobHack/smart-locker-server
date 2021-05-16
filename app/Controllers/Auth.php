@@ -65,6 +65,16 @@ class Auth extends BaseController
 		return redirect()->route('homePage');
 	}
 
+	public function logout()
+	{
+		session()->destroy();
+		return redirect('loginPage')
+			->with('alert', [
+				'type' => 'success',
+				'message' => 'Loged out',
+			]);
+	}
+
 	private function _wrongCredential()
 	{
 		return redirect()->back()

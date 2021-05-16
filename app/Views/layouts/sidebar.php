@@ -74,13 +74,13 @@
                     <a class="pc-head-link dropdown-toggle arrow-none mr-0" data-toggle="dropdown" href="#" role="button" aria-haspopup="false" aria-expanded="false">
                         <img src="assets/images/user/default-user.jpg" alt="user-image" class="user-avtar">
                         <span>
-                            <span class="user-name">Joseph William</span>
+                            <span class="user-name"><?= $username ?></span>
                             <!-- <span class="user-desc">Administrator</span> -->
                         </span>
                     </a>
                     <div class="dropdown-menu dropdown-menu-right pc-h-dropdown">
 
-                        <a href="login.html" class="dropdown-item">
+                        <a href="<?= route_to('logout') ?>" class="dropdown-item">
                             <i class="material-icons-two-tone">chrome_reader_mode</i>
                             <span>Logout</span>
                         </a>
