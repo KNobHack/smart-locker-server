@@ -2,16 +2,19 @@
 
 namespace App\Controllers\Api;
 
-use App\Controllers\Locker as LockerTrait;
+use App\Entities\Locker as LockerEntity;
 
 class Locker extends BaseController
 {
-	use LockerTrait;
 
 	public function checkStatus($id)
 	{
-		$result = $this->doCheckStatus($id);
+		$locker = (new Lockers())->find($id);
 
-		return $this->respond($result);
+		if ($locker === null) {
+			return $this->failNotFound('Locker not found', 404, "Locker id = {$id} not found");
+		};
+
+		return $this->respond($locker->toArray());
 	}
 }
