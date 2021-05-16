@@ -2,15 +2,34 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="icon" type="image/png" href="<?= base_url('/assets/favicon/favicon-32x32.png') ?>" sizes="32x32" />
-    <link rel="icon" type="image/png" href="<?= base_url('/assets/favicon/favicon-16x16.png') ?>" sizes="16x16" />
+    <title><?= $title ?? "SMIZERLock" ?></title>
+    <!-- HTML5 Shim and Respond.js IE11 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 11]>
+    	<script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    	<script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    	<![endif]-->
 
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
+    <!-- Meta -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimal-ui">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="author" content="Dadakanz">
 
-    <title><?= $title ?? 'Smart Sterilizer Locker' ?></title>
+
+    <!-- Favicon icon -->
+    <link rel="icon" type="image/png" href="assets/images/favicon-32x32.png" sizes="32x32" />
+    <link rel="icon" type="image/png" href="assets/images/favicon-16x16.png" sizes="16x16" />
+
+
+    <!-- font css -->
+    <link rel="stylesheet" href="assets/fonts/feather.css">
+    <link rel="stylesheet" href="assets/fonts/fontawesome.css">
+    <link rel="stylesheet" href="assets/fonts/material.css">
+
+    <!-- vendor css -->
+    <link rel="stylesheet" href="assets/css/style.css" id="main-style-link">
+
 </head>
 
-<body>
+<body class="">
