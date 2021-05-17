@@ -123,6 +123,19 @@
         }
     }
 
+    async function lockerLock(locker_id, lock) {
+        let url = `<?= base_url() ?>/api/locker/lock/${locker_id}/${lock}`;
+        let response = await fetch(url);
+
+        if (response.ok) { // if HTTP-status is 200-299
+            // get the response body (the method explained below)
+            let json = await response.json();
+            return json;
+        } else {
+            alert("HTTP-Error: " + response.status);
+        }
+    }
+
     async function LockerStatuses() {
         let url = `<?= base_url() ?>/api/lockers/statuses/`;
         let response = await fetch(url);
@@ -186,5 +199,15 @@
     setInterval(async function() {
         await refreshTable();
     }, 20000);
+
+    $('.lock_status').on('change', function(event) {
+        let locker_id = $('#LockerModal').find('.locker_id').val();
+        if (this.checked) {
+            lockerLock(locker_id, 1);
+        } else {
+            lockerLock(locker_id, 0);
+        }
+        console.log('ok');
+    });
 </script>
 <?= $this->endSection() ?>

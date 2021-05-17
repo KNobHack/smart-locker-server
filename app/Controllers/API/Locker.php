@@ -29,6 +29,23 @@ class Locker extends BaseController
 		return $this->respond($lockers);
 	}
 
+	public function lock($id, $lock = true)
+	{
+		$lockerModel = new Lockers();
+		$locker = (new Lockers())->find($id);
+
+		if ($locker === null) {
+			return $this->failNotFound('Locker not found', 404, "Locker id = {$id} not found");
+		};
+
+		$locker->lock = !!$lock;
+
+		if ($locker->hasChanged())
+			$lockerModel->save($locker);
+
+		return $this->respond($locker->toArray());
+	}
+
 	public function locker($mode = null)
 	{
 		$locker_id        = $this->request->getPostGet('id');

@@ -15,7 +15,7 @@ class Lockers extends Model
 	protected $returnType           = 'App\Entities\Locker';
 	protected $useSoftDelete        = false;
 	protected $protectFields        = true;
-	protected $allowedFields        = ['status', 'weight', 'sterilize', 'status_lock'];
+	protected $allowedFields        = ['status', 'weight', 'sterilize', 'status_lock', 'lock'];
 
 	// Dates
 	protected $useTimestamps        = false;
