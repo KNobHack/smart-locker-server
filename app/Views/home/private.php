@@ -24,14 +24,19 @@
                             </thead>
                             <tbody>
                                 <?php foreach ($lockers as $locker) : ?>
+                                    <?php $lkr_id = $locker['id'] ?>
                                     <tr>
                                         <td><?= $locker['id'] ?></td>
                                         <td>
-                                            <div><label class="badge bg-light-<?= $locker['status_badge'] ?>"><?= $locker['status'] ?></label></div>
+                                            <div>
+                                                <label id="tbl-locker-status-<?= $lkr_id ?>" class="badge bg-light-<?= $locker['status_badge'] ?>">
+                                                    <?= $locker['status'] ?>
+                                                </label>
+                                            </div>
                                         </td>
-                                        <td><?= $locker['weight'] ?> g</td>
+                                        <td id="tbl-locker-weight-<?= $lkr_id ?>"><?= $locker['weight'] ?>g</td>
                                         <td>
-                                            <span class="material-icons-two-tone">
+                                            <span id="tbl-locker-lock-<?= $lkr_id ?>" class="material-icons-two-tone">
                                                 <?= ($locker['status_lock']) ? 'lock' : 'lock_open' ?>
                                             </span>
                                         </td>
@@ -105,8 +110,21 @@
 
 <?= $this->section('js') ?>
 <script>
-    async function updateModal(locker_id) {
-        let url = `api/locker/status/${locker_id}`;
+    async function lockerStatus(locker_id) {
+        let url = `<?= base_url() ?>/api/locker/status/${locker_id}`;
+        let response = await fetch(url);
+
+        if (response.ok) { // if HTTP-status is 200-299
+            // get the response body (the method explained below)
+            let json = await response.json();
+            return json;
+        } else {
+            alert("HTTP-Error: " + response.status);
+        }
+    }
+
+    async function LockerStatuses() {
+        let url = `<?= base_url() ?>/api/lockers/statuses/`;
         let response = await fetch(url);
 
         if (response.ok) { // if HTTP-status is 200-299
@@ -119,10 +137,9 @@
     }
 
     $('#LockerModal').on('show.bs.modal', async function(event) {
-
         var button = $(event.relatedTarget)
         var locker_id = button.data('locker_id')
-        let response = await updateModal(locker_id)
+        let response = await lockerStatus(locker_id)
 
         var modal = $(this)
         modal.find('.locker_id').val(response.id)
@@ -137,8 +154,37 @@
         }
     });
 
-    function refreshTable() {
+    async function refreshTable() {
+        let response = await LockerStatuses();
+        let status, weight, lock;
+        for (let i = 0; i < response.length; i++) {
+            status = $('#tbl-locker-status-' + response[i].id);
+            weight = $('#tbl-locker-weight-' + response[i].id);
+            lock = $('#tbl-locker-lock-' + response[i].id);
 
+            status.html(response[i].status);
+            if (response[i].status == 'Empty') {
+                status
+                    .removeClass('bg-light-warning')
+                    .addClass('bg-light-success');
+            } else {
+                status
+                    .removeClass('bg-light-success')
+                    .addClass('bg-light-warning');
+            }
+
+            weight.html(response[i].weight + 'g');
+
+            if (response[i].status_lock == '1') {
+                lock.html('lock');
+            } else {
+                lock.html('lock_open');
+            }
+        }
     }
+
+    setInterval(async function() {
+        await refreshTable();
+    }, 20000);
 </script>
 <?= $this->endSection() ?>

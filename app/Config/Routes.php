@@ -35,6 +35,8 @@ $routes->get('/', 'Auth::loginPage');
 
 $routes->group('api', ['namespace' => 'App\Controllers\API'], function ($routes) {
 	$routes->get('locker/status/(:alphanum)', 'Locker::checkStatus/$1');
+	$routes->get('lockers/statuses/', 'Locker::checkStatuses');
+
 	$routes->add('locker', 'Locker::locker');
 	$routes->add('locker/json', 'Locker::locker/json');
 	// locker_status

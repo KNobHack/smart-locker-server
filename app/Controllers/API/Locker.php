@@ -18,6 +18,18 @@ class Locker extends BaseController
 		return $this->respond($locker->toArray());
 	}
 
+	public function checkStatuses()
+	{
+		$lockers = (new Lockers())->privateLockers();
+
+		if ($lockers === null) {
+			return $this->failNotFound('Locker not found', 404);
+		};
+
+		$lockers = $this->_lockersForViews($lockers);
+		return $this->respond($lockers);
+	}
+
 	public function locker($mode = null)
 	{
 		$locker_id        = $this->request->getPostGet('id');
