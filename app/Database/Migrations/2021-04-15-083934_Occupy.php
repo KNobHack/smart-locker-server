@@ -32,6 +32,7 @@ class Occupy extends Migration
 			],
 			'deleted_at' => [
 				'type' => 'datetime',
+				'default' => '0000-00-00 00:00:00'
 			],
 		]);
 		$this->forge->addForeignKey('user_id', 'users', 'id');

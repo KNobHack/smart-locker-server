@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controllers\Api;
+namespace App\Controllers\API;
 
 use App\Models\Lockers;
 use App\Entities\Locker as LockerEntity;
@@ -38,7 +38,7 @@ class Locker extends BaseController
 			return $this->failNotFound('Locker not found', 404, "Locker id = {$id} not found");
 		};
 
-		$locker->lock = !!$lock;
+		$locker->lock = intval(!!$lock);
 
 		if ($locker->hasChanged())
 			$lockerModel->save($locker);
