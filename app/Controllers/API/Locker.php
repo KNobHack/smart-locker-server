@@ -26,7 +26,6 @@ class Locker extends BaseController
 			return $this->failNotFound('Locker not found', 404);
 		};
 
-		$lockers = $this->_lockersForViews($lockers);
 		return $this->respond($lockers);
 	}
 
