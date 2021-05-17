@@ -9,4 +9,6 @@
     </div>
 </div>
 
+<?= $this->include('layouts/required-js') ?>
+<?= $this->renderSection('js') ?>
 <?= $this->include('layouts/foot') ?>
