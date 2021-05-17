@@ -35,6 +35,8 @@ $routes->get('/', 'Auth::loginPage');
 
 $routes->group('api', ['namespace' => 'App\Controllers\API'], function ($routes) {
 	$routes->get('locker/status/(:alphanum)', 'Locker::checkStatus/$1');
+	$routes->get('locker', 'Locker::locker');
+	// locker_status
 });
 
 $routes->get('login', 'Auth::loginPage', ['as' => 'loginPage']);
@@ -45,6 +47,8 @@ $routes->get('signup', 'Auth::registerPage', ['as' => 'registerPage']);
 $routes->post('signup', 'Auth::register', ['as' => 'register']);
 
 $routes->get('home', 'Home', ['as' => 'homePage']);
+
+$routes->get('private', 'Locker::private');
 
 /*
  * --------------------------------------------------------------------

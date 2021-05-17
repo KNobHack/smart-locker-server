@@ -6,7 +6,6 @@ use App\Entities\Locker as LockerEntity;
 
 class Locker extends BaseController
 {
-
 	public function checkStatus($id)
 	{
 		$locker = (new Lockers())->find($id);
@@ -16,5 +15,13 @@ class Locker extends BaseController
 		};
 
 		return $this->respond($locker->toArray());
+	}
+
+	public function locker()
+	{
+		$locker_id     = $this->request->getPostGet('id');
+		$locker_status = $this->request->getPostGet('status');
+		$weight        = $this->request->getPostGet('weight');
+		$sterilize     = $this->request->getPostGet('sterilize');
 	}
 }

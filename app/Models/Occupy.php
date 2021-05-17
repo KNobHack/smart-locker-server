@@ -3,22 +3,21 @@
 namespace App\Models;
 
 use CodeIgniter\Model;
-use App\Models\Occupy;
 
-class Lockers extends Model
+class Occupy extends Model
 {
 	protected $DBGroup              = 'default';
-	protected $table                = 'lockers';
+	protected $table                = 'occupies';
 	protected $primaryKey           = 'id';
-	protected $useAutoIncrement     = false;
+	protected $useAutoIncrement     = true;
 	protected $insertID             = 0;
-	protected $returnType           = 'App\Entities\Locker';
+	protected $returnType           = 'array';
 	protected $useSoftDelete        = false;
 	protected $protectFields        = true;
-	protected $allowedFields        = ['status'];
+	protected $allowedFields        = [];
 
 	// Dates
-	protected $useTimestamps        = false;
+	protected $useTimestamps        = true;
 	protected $dateFormat           = 'datetime';
 	protected $createdField         = 'created_at';
 	protected $updatedField         = 'updated_at';
@@ -41,19 +40,28 @@ class Lockers extends Model
 	protected $beforeDelete         = [];
 	protected $afterDelete          = [];
 
-	public static function occupied($id): bool
+	public static function attach($user_id, $locker_id)
 	{
-		return !!(new Lockers())->find($id)->countAllResults();
+		$count = (new Occupy())
+			->where([
+				'user_id' => $user_id,
+				'locker_id' => $locker_id
+			])->countAll();
+		if ($count > 1) return;
+
+		(new Occupy())
+			->insert([
+				'user_id' => $user_id,
+				'locker_id' => $locker_id
+			]);
 	}
 
-	public function privateLockers()
+	public function detach($user_id, $locker_id)
 	{
-		$user_id = session('credential')['id'];
-		$occupy = new Occupy();
-		return $occupy
-			->select("{$this->table}.*")
-			->join($this->table, "{$this->table}.{$this->primaryKey} = {$occupy->table}.{$occupy->primaryKey}")
-			->where(['user_id' => $user_id])
-			->findAll();
+		(new Occupy())
+			->where([
+				'user_id' => $user_id,
+				'locker_id' => $locker_id
+			])->delete();
 	}
 }

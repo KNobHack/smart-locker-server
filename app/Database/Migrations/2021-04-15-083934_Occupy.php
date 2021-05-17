@@ -23,16 +23,25 @@ class Occupy extends Migration
 			'locker_id' => [
 				'type'       => 'CHAR',
 				'constraint' => 8,
-			]
+			],
+			'created_at' => [
+				'type' => 'datetime',
+			],
+			'updated_at' => [
+				'type' => 'datetime',
+			],
+			'deleted_at' => [
+				'type' => 'datetime',
+			],
 		]);
 		$this->forge->addForeignKey('user_id', 'users', 'id');
 		$this->forge->addForeignKey('locker_id', 'lockers', 'id');
 		$this->forge->addPrimaryKey('id');
-		$this->forge->createTable('occupy');
+		$this->forge->createTable('occupies');
 	}
 
 	public function down()
 	{
-		$this->forge->dropTable('occupy');
+		$this->forge->dropTable('occupies');
 	}
 }
