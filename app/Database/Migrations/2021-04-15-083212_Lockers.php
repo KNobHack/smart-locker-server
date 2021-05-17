@@ -15,8 +15,25 @@ class Lockers extends Migration
 			],
 			'status' => [
 				'type'       => 'ENUM',
-				'constraint' => ['empty', 'occupied'],
-				'default'    => 'empty'
+				'constraint' => ['Empty', 'Occupied'],
+				'default'    => 'Empty'
+			],
+			'weight' => [
+				'type'       => 'INT',
+				'default'    => 0,
+			],
+			'sterilize' => [
+				'type'       => 'ENUM',
+				'constraint' => ['Unsterilized', 'Sterilizing', 'Sterilized'],
+				'default'    => 'Unsterilized'
+			],
+			'status_lock' => [
+				'type'       => 'BOOL',
+				'default'    => 0,
+			],
+			'lock' => [
+				'type'       => 'BOOL',
+				'default'    => 0,
 			],
 		]);
 		$this->forge->addPrimaryKey('id', true);
