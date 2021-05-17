@@ -15,7 +15,7 @@ class Lockers extends Model
 	protected $returnType           = 'App\Entities\Locker';
 	protected $useSoftDelete        = false;
 	protected $protectFields        = true;
-	protected $allowedFields        = ['status'];
+	protected $allowedFields        = ['status', 'weight', 'sterilize', 'status_lock'];
 
 	// Dates
 	protected $useTimestamps        = false;
@@ -50,10 +50,12 @@ class Lockers extends Model
 	{
 		$user_id = session('credential')['id'];
 		$occupy = new Occupy();
+
 		return $occupy
 			->select("{$this->table}.*")
-			->join($this->table, "{$this->table}.{$this->primaryKey} = {$occupy->table}.{$occupy->primaryKey}")
-			->where(['user_id' => $user_id])
+			->join($this->table, "{$this->table}.{$this->primaryKey} = {$occupy->table}.locker_id")
+			->where(["{$occupy->table}.user_id" => $user_id])
+			// ->get()->getCustomResultObject('App\Entities\Locker');
 			->findAll();
 	}
 }

@@ -10,5 +10,20 @@ class Locker extends BaseController
 	public function private()
 	{
 		$lockers = (new Lockers())->privateLockers();
+		$lockers = $this->_lockersForViews($lockers);
+		$this->data['lockers'] = $lockers;
+
+		return view('home/private', $this->data);
+	}
+
+	private function _lockersForViews($lockers)
+	{
+		return array_map(function ($locker) {
+			$locker['status_badge'] =
+				($locker['status'] == 'Empty')
+				? 'success' : 'warning';
+
+			return $locker;
+		}, $lockers);
 	}
 }

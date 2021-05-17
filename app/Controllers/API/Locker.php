@@ -22,15 +22,15 @@ class Locker extends BaseController
 	{
 		$locker_id        = $this->request->getPostGet('id');
 		$locker_status    = $this->request->getPostGet('status');
-		$locker_weight    = (string)$this->request->getPostGet('weight');
-		$locker_locked    = (string)$this->request->getPostGet('locked');
+		$locker_weight    = $this->request->getPostGet('weight');
+		$locker_locked    = $this->request->getPostGet('locked');
 		$locker_sterilize = $this->request->getPostGet('sterilize');
 		if ($mode == 'json') {
 			$body = json_decode($this->request->getBody());
 			$locker_id        = $body->id;
 			$locker_status    = $body->status;
-			$locker_locked    = (string)$body->locked;
-			$locker_weight    = (string)$body->weight;
+			$locker_locked    = $body->locked;
+			$locker_weight    = $body->weight;
 			$locker_sterilize = $body->sterilize;
 		}
 
@@ -44,9 +44,10 @@ class Locker extends BaseController
 		$locker->weight      = $locker_weight;
 		$locker->sterilize   = $locker_sterilize;
 		$locker->status_lock = $locker_locked;
+
 		if ($locker->hasChanged())
 			$lockerModel->save($locker);
 
-		return $this->respond(['lock' => $locker->status_lock]);
+		return $this->respond(['lock' => $locker->lock]);
 	}
 }

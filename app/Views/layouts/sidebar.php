@@ -41,7 +41,7 @@
                     <label>Navigation</label>
                 </li>
                 <li class="pc-item">
-                    <a href="private.html" class="pc-link ">
+                    <a href="<?= route_to('privatePage') ?>" class="pc-link ">
                         <span class="pc-micon">
                             <span class="material-icons-two-tone">
                                 lock
@@ -51,7 +51,7 @@
                     </a>
                 </li>
                 <li class="pc-item">
-                    <a href="public.html" class="pc-link ">
+                    <a href="#" class="pc-link ">
                         <span class="pc-micon">
                             <span class="material-icons-two-tone">
                                 public
