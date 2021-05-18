@@ -164,7 +164,7 @@
 
         var modal = $(this)
         modal.find('.locker_id').val(response.id)
-        modal.find('.lock_status').val(response.status);
+        modal.find('.locker_status').val(response.status);
         modal.find('.locker_weight').val(response.weight + "g")
 
         modal.find('.locker_sterilize').html(response.sterilize)
@@ -260,4 +260,40 @@
         }
     });
 </script>
+<div class="fixed-button active">
+    <a href="#" data-toggle="modal" data-target="#insertLockerModal" class="btn btn-md btn-primary">
+        <i class="material-icons-two-tone text-white">add</i> Add Locker</a>
+</div>
+
+<div id="insertLockerModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="insertLockerModalTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="insertLockerModalTitle">Add Locker</h5>
+                <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="addLockerForm">
+                    <div class="row mb-3">
+                        <label class="col-sm-3 col-form-label">Locker ID</label>
+                        <div class="col-sm-9">
+                            <input type="text" class="form-control locker_id">
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <label class="col-sm-3 col-form-label">Passcode</label>
+                        <div class="col-sm-9">
+                            <input type="text" class="form-control locker_status">
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary">Submit</button>
+                <!-- <button type="button" class="btn btn-primary" onclick="document.getElementById('addLockerForm').submit()">Submit</button> -->
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancle</button>
+            </div>
+        </div>
+    </div>
+</div>
 <?= $this->endSection() ?>
