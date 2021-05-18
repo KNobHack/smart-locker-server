@@ -75,6 +75,12 @@
                         </div>
                     </div>
                     <div class="row mb-3">
+                        <label class="col-sm-3 col-form-label">Locker passcode</label>
+                        <div class="col-sm-9">
+                            <input type="text" class="form-control-plaintext locker_passcode" readonly value="1234">
+                        </div>
+                    </div>
+                    <div class="row mb-3">
                         <label class="col-sm-3 col-form-label">Locker Status</label>
                         <div class="col-sm-9">
                             <input type="text" class="form-control-plaintext locker_status" readonly value="Empty">
@@ -164,6 +170,7 @@
 
         var modal = $(this)
         modal.find('.locker_id').val(response.id)
+        modal.find('.locker_passcode').val(response.passcode)
         modal.find('.locker_status').val(response.status);
         modal.find('.locker_weight').val(response.weight + "g")
 
@@ -223,7 +230,7 @@
 
             weight.html(response[i].weight + 'g');
 
-            if (response[i].lock == '1') {
+            if (response[i].status_lock == '1') {
                 lock
                     .removeClass('bg-light-warning')
                     .addClass('bg-light-success');
