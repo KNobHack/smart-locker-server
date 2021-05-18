@@ -36,9 +36,11 @@
                                         </td>
                                         <td id="tbl-locker-weight-<?= $lkr_id ?>"><?= $locker['weight'] ?>g</td>
                                         <td>
-                                            <span id="tbl-locker-lock-<?= $lkr_id ?>" class="material-icons-two-tone">
-                                                <?= ($locker['status_lock']) ? 'lock' : 'lock_open' ?>
-                                            </span>
+                                            <div>
+                                                <label id="tbl-locker-lock-<?= $lkr_id ?>" class="badge bg-light-<?= $locker['lock_badge'] ?>">
+                                                    <?= ($locker['status_lock'] == '1') ? "Locked" : "Unlocked" ?>
+                                                </label>
+                                            </div>
                                         </td>
                                         <td>
                                             <a href="#!" data-toggle="modal" data-target="#LockerModal" data-locker_id="<?= $locker['id'] ?>">
@@ -69,7 +71,7 @@
                     <div class="row mb-3">
                         <label class="col-sm-3 col-form-label">Locker ID</label>
                         <div class="col-sm-9">
-                            <input type="text" class="form-control-plaintext locker_id" readonly value="1234">
+                            <input type="text" class="form-control-plaintext locker_id" readonly value="12345678">
                         </div>
                     </div>
                     <div class="row mb-3">
@@ -81,13 +83,15 @@
                     <div class="row mb-3">
                         <label class="col-sm-3 col-form-label">Weight</label>
                         <div class="col-sm-9">
-                            <input type="text" class="form-control-plaintext locker_weight" readonly value="1234">
+                            <input type="text" class="form-control-plaintext locker_weight" readonly value="50g">
                         </div>
                     </div>
                     <div class="row mb-3">
-                        <label class="col-sm-3 col-form-label">Sterelize</label>
-                        <div class="col-sm-9">
-                            <input type="text" class="form-control-plaintext locker_sterilize" readonly value="1234">
+                        <label class="col-sm-3 col-form-label">Sterilize</label>
+                        <div class="col-sm-9 my-auto">
+                            <label class="badge bg-light-danger locker_sterilize">
+                                Not sterilize yet
+                            </label>
                         </div>
                     </div>
                     <div class="row mb-3">
@@ -95,6 +99,9 @@
                         <div class="col-sm-9 my-auto">
                             <div class="form-check form-switch">
                                 <input type="checkbox" class="form-check-input lock_status">
+                                <label class="badge bg-light-success lock_status_badge">
+                                    Unlocked
+                                </label>
                             </div>
                         </div>
                     </div>
@@ -150,25 +157,53 @@
     }
 
     $('#LockerModal').on('show.bs.modal', async function(event) {
-        var button = $(event.relatedTarget)
+        var button = $(event.relatedTarget);
         var locker_id = button.data('locker_id')
         let response = await lockerStatus(locker_id)
+        console.log(response);
 
         var modal = $(this)
         modal.find('.locker_id').val(response.id)
-        modal.find('.locker_status').val(response.status)
+        modal.find('.lock_status').val(response.status);
         modal.find('.locker_weight').val(response.weight + "g")
-        modal.find('.locker_sterilize').val(response.sterilize)
+
+        modal.find('.locker_sterilize').html(response.sterilize)
+        if (response.sterilize == 'Sterilized') {
+            modal.find('.locker_sterilize')
+                .removeClass('bg-light-danger')
+                .removeClass('bg-light-warning')
+                .addClass('bg-light-success');
+        } else if (response.sterilize == 'Sterilizing') {
+            modal.find('.locker_sterilize')
+                .removeClass('bg-light-danger')
+                .removeClass('bg-light-success')
+                .addClass('bg-light-warning');
+        } else {
+            modal.find('.locker_sterilize')
+                .removeClass('bg-light-warning')
+                .removeClass('bg-light-success')
+                .addClass('bg-light-danger');
+        }
 
         if (response.status_lock == '1') {
             modal.find('.lock_status').prop('checked', true);
+            modal.find('.lock_status_badge').html('Locked');
+            modal.find('.lock_status_badge')
+                .removeClass('bg-light-warning')
+                .addClass('bg-light-success');
         } else {
             modal.find('.lock_status').prop('checked', false);
+            modal.find('.lock_status_badge').html('Unlocked');
+            modal.find('.lock_status_badge')
+                .removeClass('bg-light-success')
+                .addClass('bg-light-warning');
+
         }
     });
 
     async function refreshTable() {
         let response = await LockerStatuses();
+        console.log(response);
         let status, weight, lock;
         for (let i = 0; i < response.length; i++) {
             status = $('#tbl-locker-status-' + response[i].id);
@@ -188,26 +223,41 @@
 
             weight.html(response[i].weight + 'g');
 
-            if (response[i].status_lock == '1') {
-                lock.html('lock');
+            if (response[i].lock == '1') {
+                lock
+                    .removeClass('bg-light-warning')
+                    .addClass('bg-light-success');
+
+                lock.html('Locked');
             } else {
-                lock.html('lock_open');
+                lock
+                    .removeClass('bg-light-success')
+                    .addClass('bg-light-warning');
+
+                lock.html('Unlocked');
             }
         }
     }
 
     setInterval(async function() {
         await refreshTable();
-    }, 20000);
+    }, 10000);
 
     $('.lock_status').on('change', function(event) {
         let locker_id = $('#LockerModal').find('.locker_id').val();
         if (this.checked) {
             lockerLock(locker_id, 1);
+            $('#LockerModal').find('.lock_status_badge').html('Locked');
+            $('#LockerModal').find('.lock_status_badge')
+                .removeClass('bg-light-warning')
+                .addClass('bg-light-success');
         } else {
             lockerLock(locker_id, 0);
+            $('#LockerModal').find('.lock_status_badge').html('Unlocked');
+            $('#LockerModal').find('.lock_status_badge')
+                .removeClass('bg-light-success')
+                .addClass('bg-light-warning');
         }
-        console.log('ok');
     });
 </script>
 <?= $this->endSection() ?>

@@ -35,30 +35,23 @@ class Locker extends Entity
 
 	public function setStatus($status): Locker
 	{
-		if (is_string($status)) {
-			$this->attributes['status'] = ucfirst($status);
-		} else if (is_bool($status) || is_numeric($status)) {
-			$this->attributes['status'] = ($status) ? 'Occupied' : 'Empty';
-		} else {
-			$this->attributes['status'] = $status;
-		}
+		if ($status == 'Empty' || $status == 0)
+			$this->attributes['status'] = 'Empty';
+		elseif ($status == 'Occupied' || $status == 1)
+			$this->attributes['status'] = 'Occupied';
+
 		return $this;
 	}
 
 	public function setSterilize($sterilize): Locker
 	{
-		if (is_string($sterilize)) {
-			$this->attributes['sterilize'] = ucfirst($sterilize);
-		} else if (is_numeric($sterilize)) {
-			if ($sterilize == 0)
-				$this->attributes['sterilize'] = 'Unsterilized';
-			else if ($sterilize == 1)
-				$this->attributes['sterilize'] = 'Sterilizing';
-			else if ($sterilize == 2)
-				$this->attributes['sterilize'] = 'Sterilized';
-		} else {
-			$this->attributes['sterilize'] = $sterilize;
-		}
+		if ($sterilize == 0 || $sterilize == 'Unsterilized')
+			$this->attributes['sterilize'] = 'Unsterilized';
+		else if ($sterilize == 1 || $sterilize == 'Sterilizing')
+			$this->attributes['sterilize'] = 'Sterilizing';
+		else if ($sterilize == 2 || $sterilize == 'Sterilized')
+			$this->attributes['sterilize'] = 'Sterilized';
+
 		return $this;
 	}
 }

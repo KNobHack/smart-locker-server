@@ -23,6 +23,10 @@ class Locker extends BaseController
 				($locker['status'] == 'Empty')
 				? 'success' : 'warning';
 
+			$locker['lock_badge'] =
+				($locker['status_lock'] == '1')
+				? 'success' : 'warning';
+
 			return $locker;
 		}, $lockers);
 	}
