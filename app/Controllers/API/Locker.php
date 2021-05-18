@@ -29,6 +29,27 @@ class Locker extends BaseController
 		return $this->respond($lockers);
 	}
 
+	public function checkPasscode($id, $mode = null)
+	{
+		$locker = (new Lockers())->find($id);
+
+		if ($locker === null) {
+			return $this->failNotFound('Locker not found', 404, "Locker id = {$id} not found");
+		};
+
+		$passcode = $this->request->getPostGet('passcode');
+		if ($mode == 'json') {
+			$body = json_decode($this->request->getBody());
+			$passcode = $body->passcode;
+		}
+
+		if ($passcode == $locker->passcode) {
+			return $this->respond(['authenticated' => 1]);
+		} else {
+			return $this->respond(['authenticated' => 0]);
+		}
+	}
+
 	public function lock($id, $lock = true)
 	{
 		$lockerModel = new Lockers();

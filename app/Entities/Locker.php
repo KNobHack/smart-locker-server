@@ -10,7 +10,8 @@ class Locker extends Entity
 		'status' => 'Empty',
 		'weight' => null,
 		'sterilize' => 'Unsterilized',
-		'status_lock' => null
+		'status_lock' => null,
+		'passcode' => null
 	];
 
 	protected $datamap = [];

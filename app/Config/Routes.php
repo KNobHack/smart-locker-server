@@ -36,11 +36,12 @@ $routes->get('/', 'Auth::loginPage');
 $routes->group('api', ['namespace' => 'App\Controllers\API'], function ($routes) {
 	$routes->get('locker/status/(:alphanum)', 'Locker::checkStatus/$1');
 	$routes->get('lockers/statuses/', 'Locker::checkStatuses');
+	$routes->add('locker/passcode/(:alphanum)', 'Locker::checkPasscode/$1');
+	$routes->add('locker/passcode/json/(:alphanum)', 'Locker::checkPasscode/$1/json');
 	$routes->get('locker/lock/(:alphanum)/(:num)', 'Locker::lock/$1/$2');
 
 	$routes->add('locker', 'Locker::locker');
 	$routes->add('locker/json', 'Locker::locker/json');
-	// locker_status
 });
 
 $routes->get('login', 'Auth::loginPage', ['as' => 'loginPage']);

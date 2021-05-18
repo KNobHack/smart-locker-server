@@ -35,6 +35,10 @@ class Lockers extends Migration
 				'type'       => 'BOOL',
 				'default'    => 0,
 			],
+			'passcode' => [
+				'type'       => 'INT',
+				'default'    => 1234,
+			],
 		]);
 		$this->forge->addPrimaryKey('id', true);
 		$this->forge->createTable('lockers');
